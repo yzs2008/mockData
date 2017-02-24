@@ -1,0 +1,19 @@
+{
+  "server": {
+    "name": "mock data",
+    "host": "0.0.0.0"
+  },
+  "provider": [
+    {
+      "dataSource": {
+        "host": "localhost",
+        "user": "root",
+        "password": "123456",
+        "database": "local_myrouter"
+      },
+      "name": "tlsign",
+      "size": 2000,
+      "times": 10
+    }
+  ]
+}

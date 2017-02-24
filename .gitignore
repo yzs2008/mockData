@@ -4,3 +4,4 @@
 node_modules/
 *.swap
 *.swp
+/log/
