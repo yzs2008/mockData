@@ -1,6 +1,7 @@
 var loader = require('./loader');
 var logger = require('../common/logger')('engine');
 var config = require('../common/config');
+var mysql = require('../mysql/mysqlService');
 
 
 module.exports = {
@@ -46,6 +47,6 @@ var prepareData = function () {
 };
 
 
-var bulkInsert = function () {
-
+var bulkInsert = function (buffer) {
+    mysql.insertList(buffer);
 };

@@ -3,7 +3,7 @@
     "name": "mock data",
     "host": "0.0.0.0"
   },
-  "cur":"tlsign",
+  "cur": "tlsign",
   "providers": [
     {
       "dataSource": {
@@ -13,6 +13,7 @@
         "database": "local_myrouter"
       },
       "name": "tlsign",
+      "table": "tl_sign_log",
       "size": 2,
       "times": 1
     }
