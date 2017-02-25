@@ -14,8 +14,8 @@
       },
       "name": "tlsign",
       "table": "tl_sign_log",
-      "size": 2,
-      "times": 1
+      "size": 20000,
+      "times": 50
     }
   ]
 }

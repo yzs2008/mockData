@@ -14,13 +14,13 @@ module.exports=function () {
     tlsign.bank_name='农业银行';
     tlsign.return_code = '0';
     tlsign.return_msg = '未处理';
-    tlsign.extension_info='{"loginPassword":"`12qwe","loginUserName":"20060400000044502","pubCertName":"allinpay-pds.cer","privateCertName":"20060400000044502.p12","privateCertPassword":"111111"}';
-    tlsign.batch_flag ='';
+    //tlsign.extension_info='{"loginPassword":"`12qwe","loginUserName":"20060400000044502","pubCertName":"allinpay-pds.cer","privateCertName":"20060400000044502.p12","privateCertPassword":"111111"}';
+    //tlsign.batch_flag ='';
     tlsign.remark = 'data';
-    tlsign.agreement_no = '';
-    tlsign.notify_to = '';
-    tlsign.channel_return_code = '';
-    tlsign.channel_return_msg = '';
+    //tlsign.agreement_no = '';
+    //tlsign.notify_to = '';
+    //tlsign.channel_return_code = '';
+    //tlsign.channel_return_msg = '';
 
     return tlsign;
 };

@@ -11,7 +11,11 @@ module.exports = {
 
         for (var i = 0; i < times; i++) {
             var buffer = prepareData();
-            bulkInsert(buffer);
+            bulkInsert(buffer).then(function (data) {
+                logger.info('done');
+            }).fail(function (err) {
+               logger.error('error occur', err);
+            });
         }
     }
 };
@@ -48,5 +52,6 @@ var prepareData = function () {
 
 
 var bulkInsert = function (buffer) {
-    mysql.insertList(buffer);
+    var providerConfig = init();
+    return mysql.insertList(providerConfig, buffer);
 };
