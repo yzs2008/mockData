@@ -6,21 +6,25 @@ var mysql = require('../mysql/mysqlService');
 
 module.exports = {
     start: function () {
-        var providerConfig = init();
+        var providerConfig = initConfig();
+        var provider = loadProvider(providerConfig.name);
+
         var times = providerConfig.times;
+        var startTime = new Date();
+        prepareDataSource(providerConfig);
 
         for (var i = 0; i < times; i++) {
-            var buffer = prepareData();
-            bulkInsert(buffer).then(function (data) {
-                logger.info('done');
+            var buffer = prepareData(provider, providerConfig.size);
+            bulkInsert(providerConfig.table, buffer).then(function (data) {
+                logger.info('done', (new Date() - startTime)/ 1000 ,'s');
             }).fail(function (err) {
-               logger.error('error occur', err);
+                logger.error('error occur', err);
             });
         }
     }
 };
 
-var init = function () {
+var initConfig = function () {
     var providerConfig = {};
     var name = config.cur;
     var providers = config.providers;
@@ -33,16 +37,12 @@ var init = function () {
     return providerConfig;
 };
 
-var load = function () {
-    var providerConfig = init();
-    var provider = loader.load(providerConfig.name);
+var loadProvider = function (providerName) {
+    var provider = loader.load(providerName);
     return provider;
 };
 
-var prepareData = function () {
-    var provider = load();
-    var providerConfig = init();
-    var size = providerConfig.size;
+var prepareData = function (provider, size) {
     var buffer = [];
     for (var i = 0; i < size; i++) {
         buffer[i] = provider();
@@ -50,8 +50,10 @@ var prepareData = function () {
     return buffer;
 };
 
+var prepareDataSource = function (providerConfig) {
+    mysql.initPool(providerConfig);
+};
 
-var bulkInsert = function (buffer) {
-    var providerConfig = init();
-    return mysql.insertList(providerConfig, buffer);
+var bulkInsert = function (table, buffer) {
+    return mysql.insertList(table, buffer);
 };

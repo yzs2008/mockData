@@ -2,22 +2,17 @@ var mysql = require('mysql');
 var Q = require('q');
 var logger = require('../common/logger')('mysql');
 
+var pool;
 
 module.exports = {
-    insertList: function (config, dataBuf) {
+    insertList: function (table, dataBuf) {
         var deferred = Q.defer();
 
-        var pool = mysql.createPool(config.dataSource);
         var obj = {};
-        obj.table = config.table;
+        obj.table = table;
         obj.meta = dataBuf[0];
         var queryStr = makeQueryStr(obj);
         var params = makeParams(dataBuf);
-/*        var test = [[['c1bc6e8c-aca6-46ef-b668-60ee60a5efd2', '41142319840322451X', '黄建博', '6228480405925338270', '18551276587', '200604000000445', '30', '0103', '农业银行', '0', '未处理', 'data'],
-            ['d1bc6e8c-aca6-46ef-b668-60ee60a5efd2', '41142319840322451X', '黄建博', '6228480405925338270', '18551276587', '200604000000445', '30', '0103', '农业银行', '0', '未处理', 'data']]];
-        var str = mysql.format(queryStr,test);*/
-        //var str = mysql.format(queryStr, params);
-        //logger.info(str);
 
         pool.getConnection(function (err, connection) {
             connection.query(queryStr, params, function (err, results) {
@@ -30,6 +25,9 @@ module.exports = {
         });
 
         return deferred.promise;
+    },
+    initPool: function (config) {
+        pool = mysql.createPool(config.dataSource);
     }
 };
 
@@ -55,11 +53,11 @@ var makeQueryStr = function (obj) {
 var makeParams = function (params) {
     var paramWrapper = [];
     var result = [];
-    for(var i =0; i< params.length; i++){
+    for (var i = 0; i < params.length; i++) {
         var item = [];
         var param = params[i];
         Object.keys(param).forEach(function (key) {
-            item.push(param[key]); 
+            item.push(param[key]);
         });
         result.push(item);
     }
